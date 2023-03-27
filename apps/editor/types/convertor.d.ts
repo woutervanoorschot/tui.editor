@@ -1,4 +1,4 @@
-import { NodeType, MarkType, Schema, ProsemirrorNode, Mark } from 'prosemirror-model';
+import { NodeType, MarkType, Schema, Node, Mark } from 'prosemirror-model';
 import { MdNode, MdNodeType, RendererOptions, HTMLToken, MdPos } from './toastmark';
 import { WwNodeType, WwMarkType } from './wysiwyg';
 
@@ -7,20 +7,20 @@ export type Attrs = { [name: string]: any } | null;
 export interface StackItem {
   type: NodeType;
   attrs: Attrs | null;
-  content: ProsemirrorNode[];
+  content: Node[];
 }
 
 export interface ToWwConvertorState {
   schema: Schema;
   top(): StackItem;
-  push(node: ProsemirrorNode): void;
+  push(node: Node): void;
   addText(text: string): void;
   openMark(mark: Mark): void;
   closeMark(mark: MarkType): void;
-  addNode(type: NodeType, attrs?: Attrs, content?: ProsemirrorNode[]): ProsemirrorNode | null;
+  addNode(type: NodeType, attrs?: Attrs, content?: Node[]): Node | null;
   openNode(type: NodeType, attrs?: Attrs): void;
-  closeNode(): ProsemirrorNode | null;
-  convertNode(mdNode: MdNode, infoForPosSync: InfoForPosSync): ProsemirrorNode | null;
+  closeNode(): Node | null;
+  convertNode(mdNode: MdNode, infoForPosSync: InfoForPosSync): Node | null;
   convertByDOMParser(root: HTMLElement): void;
 }
 
@@ -48,20 +48,20 @@ export interface ToMdConvertorState {
   getDelim(): string;
   setDelim(delim: string): void;
   flushClose(size?: number): void;
-  wrapBlock(delim: string, firstDelim: string | null, node: ProsemirrorNode, fn: () => void): void;
+  wrapBlock(delim: string, firstDelim: string | null, node: Node, fn: () => void): void;
   ensureNewLine(): void;
   write(content?: string): void;
-  closeBlock(node: ProsemirrorNode): void;
+  closeBlock(node: Node): void;
   text(text: string, escaped?: boolean): void;
-  convertBlock(node: ProsemirrorNode, parent: ProsemirrorNode, index: number): void;
-  convertInline(parent: ProsemirrorNode): void;
-  convertList(node: ProsemirrorNode, delim: string, firstDelimFn: FirstDelimFn): void;
-  convertTableCell(node: ProsemirrorNode): void;
-  convertNode(parent: ProsemirrorNode, infoForPosSync?: InfoForPosSync): string;
+  convertBlock(node: Node, parent: Node, index: number): void;
+  convertInline(parent: Node): void;
+  convertList(node: Node, delim: string, firstDelimFn: FirstDelimFn): void;
+  convertTableCell(node: Node): void;
+  convertNode(parent: Node, infoForPosSync?: InfoForPosSync): string;
 }
 
 export interface ToDOMAdaptor {
-  getToDOMNode(type: string): ((node: ProsemirrorNode | Mark) => Node) | null;
+  getToDOMNode(type: string): ((node: Node | Mark) => Node) | null;
 }
 
 type HTMLToWwConvertor = (state: ToWwConvertorState, node: MdNode, openTagName: string) => void;
@@ -73,14 +73,14 @@ export interface FlattenHTMLToWwConvertorMap {
 }
 
 export interface NodeInfo {
-  node: ProsemirrorNode;
-  parent?: ProsemirrorNode;
+  node: Node;
+  parent?: Node;
   index?: number;
 }
 
 export interface MarkInfo {
   node: Mark;
-  parent?: ProsemirrorNode;
+  parent?: Node;
   index?: number;
 }
 
@@ -137,6 +137,6 @@ export interface ToMdConvertors {
 }
 
 export interface InfoForPosSync {
-  node: MdNode | ProsemirrorNode | null;
+  node: MdNode | Node | null;
   setMappedPos: (pos: MdPos | number) => void;
 }
