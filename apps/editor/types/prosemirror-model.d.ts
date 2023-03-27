@@ -7,7 +7,7 @@ declare module 'prosemirror-model' {
     findDiffEnd(other: ProsemirrorNode | Fragment): { a: number; b: number } | null | undefined;
   }
 
-  export type ProsemirrorNode = Model.Node;
+  // export type ProsemirrorNode = Model.Node;
 
   export interface NodeType {
     compatibleContent(node: NodeType): boolean;
