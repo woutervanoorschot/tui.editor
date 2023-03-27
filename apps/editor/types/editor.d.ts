@@ -3,7 +3,7 @@ import { EditorView, Decoration, DecorationSet } from 'prosemirror-view';
 import { EditorState, Plugin, PluginKey, Selection, TextSelection } from 'prosemirror-state';
 import { undoInputRule, InputRule, inputRules } from 'prosemirror-inputrules';
 import { keymap } from 'prosemirror-keymap';
-import { Editor } from '@t/index';
+// import { Editor } from '@t/index';
 
 import {
   HTMLConvertor,
@@ -333,7 +333,7 @@ export interface Base {
 
   createSchema(): Schema;
 
-  createKeymaps(useCommandShortcut: boolean): Plugin<any, any>[];
+  createKeymaps(useCommandShortcut: boolean): Plugin<any>[];
 
   createCommands(): Record<string, EditorCommandFn<Record<string, any>>>;
 
