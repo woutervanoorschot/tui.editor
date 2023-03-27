@@ -6,7 +6,7 @@ import 'prosemirror-commands';
 
 declare module 'prosemirror-commands' {
   export interface Command<S extends Schema = any> {
-    (state: EditorState<S>, dispatch?: (tr: Transaction<S>) => void, view?: EditorView<S>): boolean;
+    (state: EditorState, dispatch?: (tr: Transaction) => void, view?: EditorView): boolean;
   }
 
   export interface Keymap<S extends Schema = any> {
